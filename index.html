@@ -7,11 +7,53 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>swapan l___da hai</h2>
-    <script type="module">
-                import {io} from "socket.io-client"
-                const socket = io()
-           console.log('you are passed')     
+    <form id="form">
+      <input type="text" name="" id="input" />
+      <ul id="messages"></ul>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const data = {};
+
+      do {
+        data.username = prompt("Enter your username");
+      } while (!data.username);
+      console.log(data.username);
+
+      const socket = io();
+      var messages = document.getElementById("messages");
+      var form = document.getElementById("form");
+      var input = document.getElementById("input");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value) {
+          data.messages = input.value;
+          socket.emit("chat message", data);
+          appendChild(data,"you");
+          input.value = "";
+        }
+      });
+
+      socket.on("chat message", (msg) => {
+        appendChild(msg);
+      });
+
+      function appendChild(data,user) {
+        var divElement = document.createElement("div");
+        divElement.style.background = "powderblue"
+        var item = document.createElement("li");
+        var names = document.createElement("h3");
+        names.innerText = user === 'you' ? 'you' : data.username
+        item.style.background = 'black'
+        item.style.height = '40px'
+        item.style.color = 'white'
+        item.innerHTML = `${new Date().toLocaleTimeString()}  <br> ${data.messages}</br>`;
+        divElement.appendChild(names)
+        divElement.appendChild(item)
+        messages.appendChild(divElement);
+        window.scrollTo(0, document.body.scrollHeight);
+      }
     </script>
   </body>
 </html>
