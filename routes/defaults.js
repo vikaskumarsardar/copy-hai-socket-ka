@@ -10,6 +10,7 @@ const { message } = require("../controllers");
 Router.post("/chatting", async (req, res, next) => {
   try {
     res.render("chatting");
+    // res.redirect('chatting')
     // res.sendFile(path.resolve('public/index.html'))
   } catch (error) {
     next(error);

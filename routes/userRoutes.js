@@ -3,7 +3,7 @@ const Router = express.Router();
 const { isUserVerified } = require("../middlewares");
 const { message } = require("../controllers/");
 
-Router.get("/test", message.test);
+Router.post("/test",isUserVerified.verifyUser, message.test);
 Router.post("/login", message.userLogin);
 Router.post(
   "/sendMessages",

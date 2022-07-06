@@ -3,7 +3,7 @@ const { statusCodes } = require("../statusCodes");
 const models = require("../models");
 const path = require('path')
 const {
-  universalFunctions: { sendResponse, sendErrorResponse, generateJWTToken },
+  universalFunctions: { sendResponse, sendErrorResponse, generateJWTToken,sendResponseWithCookies },
 } = require("../lib");
 
 exports.test = async (req, res, next) => {
@@ -12,14 +12,13 @@ exports.test = async (req, res, next) => {
       a : "abc",
       b : "pqr"
     }
-
-
     // res.writeHead(400,"nahin milega data", {
     //   "Content-Type": "application/json",
     //   "Content-Length" : JSON.stringify(data).length
     // });
     // res.status(404,"yel").send("soemthign")
-
+    // res.cookie("hello","hi there how are you")
+res.send("passed the test")
 
     
   } catch (error) {
@@ -29,7 +28,6 @@ exports.test = async (req, res, next) => {
 
 exports.userLogin = async (req, res, next) => {
   try {
-    console.log(req.body);
     const doesExist = await models.userModel
       .findOne({
         $or: [
@@ -86,7 +84,7 @@ exports.userLogin = async (req, res, next) => {
 
     doesExist.accessToken = accesstoken;
     const savedUser = await doesExist.save();
-    sendResponse(
+    sendResponseWithCookies(
       req,
       res,
       statusCodes.OK,

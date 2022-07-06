@@ -7,11 +7,11 @@
     <title>Document</title>
   </head>
   <body>
-    <form id="form" method="post">
+    <form id="form" method="post" action="http://localhost:5000/api/messages/login">
       <input type="text" id="username" name="username" value="7319739537" />
       <input type="text" id="password" name="password" value="abc" />
       <input type="text" id="countryCode" name="countryCode" value="+91" />
-      <button style="display: none" type="submit">submit now</button>
+      <button type="submit">submit now</button>
     </form>
     <script>
       const data = {};
@@ -21,15 +21,15 @@
       const countryCode = document.getElementById("countryCode");
 
       const btn = document.querySelector("button");
-      btn.addEventListener("click", function (e) {
-        data.username = username.value;
-        data.password = password.value;
-        data.countryCode = countryCode.value;
-        callApi();
-      });
-      // form.addEventListener("submit", function (e) {
-      //   e.preventDefault();
+      // btn.addEventListener("click", function (e) {
+      //   data.username = username.value;
+      //   data.password = password.value;
+      //   data.countryCode = countryCode.value;
+      //   callApi();
       // });
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+      });
 
       async function callApi() {
         let result = await fetch("http://localhost:5000/api/messages/login", {
